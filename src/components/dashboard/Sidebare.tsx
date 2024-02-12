@@ -6,6 +6,7 @@ import { FaUser } from "react-icons/fa6";
 import { GrTasks } from "react-icons/gr";
 import { IoLogOut } from "react-icons/io5";
 import { MdDashboard } from "react-icons/md";
+import { FaHome } from "react-icons/fa";
 
 // Images and logo 
 import logo from '../../assets/images/icons/logo.png'
@@ -23,6 +24,13 @@ const Sidebare = () => {
       {/* Liens de navigation */}
       <div className='mt-52 w-full ml-4'>
         <ul >
+        <li className='mt-5'>
+            <Link to="/" className='flex items-center  text-[#ffffff] hover:bg-white py-5 hover:text-[#20374b] hover:rounded-l-xl'>
+              <FaHome  className='mr-3 ml-5' size={20}  color='#fdc127'/>
+              <span>Home</span>
+            </Link>
+          </li>
+
         <li className='mt-5'>
             <Link to="dashboard" className='flex items-center  text-[#ffffff] hover:bg-white py-5 hover:text-[#20374b] hover:rounded-l-xl'>
               <MdDashboard  className='mr-3 ml-5' size={20}  color='#fdc127'/>
@@ -46,7 +54,6 @@ const Sidebare = () => {
         </ul>
       </div>
 
-      {/* Bouton de déconnexion */}
       <div className='flex items-center absolute bottom-5 right-4 text-white'>
         <IoLogOut size={25} color='#fdc127'/>
         <h1 className='text-white font-normal text-xl mt-1 ml-2'>Logout</h1> 

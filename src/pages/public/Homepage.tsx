@@ -23,7 +23,7 @@ const Homepage = () => {
             </div>
             <ul className='flex items-center list-none ml-[1300px]'>
                 <li className='list-none inline-block'><Link to="/" className='no-underline text-white px-3 hover:text-[#fdc127] hover:font-bold'>Home</Link></li>
-                <li className='list-none inline-block'><Link to="/admin/dashboard" className='no-underline text-white px-3 hover:text-[#fdc127] hover:font-bold'>dashboard</Link></li>
+                <li className='list-none inline-block'><Link to="/admin/dashboard" className='no-underline text-white px-3 hover:text-[#fdc127] hover:font-bold'>Dashboard</Link></li>
                 <li className='list-none inline-block'><Link to="/auth/login" className='no-underline text-white px-3 hover:text-[#fdc127] hover:font-bold'>Login</Link></li>
             </ul>
             <div className=""> {/* Utilisez ml-auto pour aligner les éléments à droite */}

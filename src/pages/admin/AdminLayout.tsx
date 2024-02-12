@@ -8,7 +8,7 @@ const AdminLayout = () => {
          <div className=' w-2/12'>
             <Sidebare/>
         </div>
-        <div className='w-10/12'>
+        <div className='w-10/12 m-6'>
             <Outlet></Outlet>
         </div>
     </div>

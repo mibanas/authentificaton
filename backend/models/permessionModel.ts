@@ -1,6 +1,5 @@
 import { Schema, model } from 'mongoose';
 
-// Définition du schéma de permission avec les valeurs par défaut
 const permissionSchema = new Schema({
   module: {
     type: String,
@@ -27,7 +26,6 @@ const permissionSchema = new Schema({
   }
 });
 
-// Création du modèle de permission
 const permissionModel = model('Permission', permissionSchema);
 
 // Initialisation des permissions par défaut lors de la création du modèle
