@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom'
 
 // Icons 
-import logo from '../assets/images/icons/logo.png'
-import login from '../assets/images/icons/login.png'
-import messageIcon from '../assets/images/icons/messageIcon.png'
-import planIcon from '../assets/images/icons/planIcon.png'
-import targetIcon from '../assets/images/icons/targetIcon.png'
+import logo from '../../assets/images/icons/logo.png'
+import login from '../../assets/images/icons/login.png'
+import messageIcon from '../../assets/images/icons/messageIcon.png'
+import planIcon from '../../assets/images/icons/planIcon.png'
+import targetIcon from '../../assets/images/icons/targetIcon.png'
 
 // photo
-import rightPhoto from '../assets/images/home/men.png'
+import rightPhoto from '../../assets/images/home/men.png'
 
 
 
@@ -23,7 +23,7 @@ const Homepage = () => {
             </div>
             <ul className='flex items-center list-none ml-[1300px]'>
                 <li className='list-none inline-block'><Link to="/" className='no-underline text-white px-3 hover:text-[#fdc127] hover:font-bold'>Home</Link></li>
-                <li className='list-none inline-block'><Link to="/dashboard" className='no-underline text-white px-3 hover:text-[#fdc127] hover:font-bold'>dashboard</Link></li>
+                <li className='list-none inline-block'><Link to="/admin/dashboard" className='no-underline text-white px-3 hover:text-[#fdc127] hover:font-bold'>dashboard</Link></li>
                 <li className='list-none inline-block'><Link to="/auth/login" className='no-underline text-white px-3 hover:text-[#fdc127] hover:font-bold'>Login</Link></li>
             </ul>
             <div className=""> {/* Utilisez ml-auto pour aligner les éléments à droite */}
@@ -39,7 +39,7 @@ const Homepage = () => {
             <p className='max-w-lg text-left'>Welcome to <span className='text-[#fdc127] font-bold'>MPI Todolist</span>, your ultimate tool to manage your daily tasks efficiently and organized. With <span className='text-[#fdc127] font-bold'>MPI Todolist</span>, you can create, edit, and track your tasks in real-time, whether individually or as a team. Never miss a deadline again and always stay productive with our intuitive and flexible application. Start simplifying your life and accomplishing more in less time with <span className='text-[#fdc127] font-bold'>MPI Todolist</span>!</p>
             <div className='text-left mt-8'>
                 <button className='bg-[#fdc127] px-14 py-4 rounded-xl'>
-                    <Link to="/auth/register" className='text-[#20374B] font-medium text-xl hover:text-[#20374b] hover:font-bold'>Register</Link>
+                    <Link to="/auth/register" className='text-[#ffffff] font-normal text-xl hover:text-[#20374b] hover:font-meduim'>Register</Link>
                 </button>
             </div>
         </div>

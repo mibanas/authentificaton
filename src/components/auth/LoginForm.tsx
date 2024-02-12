@@ -14,7 +14,7 @@ const LoginForm = () => {
 
     return (
         <div className='flex flex-col w-2/3 mx-auto'>
-        <h1 className='text-white font-bold text-6xl text-left mb-7'>Login now</h1>
+        <h1 className='text-yellow-600 font-bold text-6xl text-left mb-7'>Login now</h1>
         <h2 className='text-white font-thin text-4xl text-left mb-7'>Hi, Welcome back </h2>
         <form onSubmit={handleSubmit}>
             <div className='text-left mb-4 mt-2 text-white'>

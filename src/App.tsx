@@ -1,17 +1,15 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import Homepage from './pages/Homepage';
-import Authentification from './pages/Authentification';
-import Dashboard from './pages/Dashboard';
+import PublicRoute from './pages/public/PublicRoute';
+import AdminRoute from './pages/admin/AdminRoute';
 
 
 function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/auth/*" element={<Authentification />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+          <Route path='/*' element={<PublicRoute />} />
+          <Route path='/admin/*' element={<AdminRoute />} />
       </Routes>
     </div>
   );
