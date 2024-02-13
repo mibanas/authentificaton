@@ -1,13 +1,11 @@
-import { Router } from 'express'
+import express from 'express';
+import { createUser, getAllUsers, deleteUser, getUserById, updateUser } from "../controllers/users/userController";
+const router = express.Router();
 
-export class userRouter {
-    public routes 
-    
-    constructor() {
-        this.routes = Router()
-    }
+router.get('/', getAllUsers)
+router.get('/:id', getUserById)
+router.post('/', createUser)
+router.put('/:id', updateUser)
+router.delete('/:id', deleteUser)
 
-    private initializeRoutes() : void {
-        this.routes.get('/')
-    }
-}
+export default router

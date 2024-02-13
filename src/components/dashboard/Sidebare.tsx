@@ -2,11 +2,12 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 // icon
-import { FaUser } from "react-icons/fa6";
+import { FaUserFriends } from "react-icons/fa";
 import { GrTasks } from "react-icons/gr";
 import { IoLogOut } from "react-icons/io5";
 import { MdDashboard } from "react-icons/md";
 import { FaHome } from "react-icons/fa";
+import { CgProfile } from "react-icons/cg";
 
 // Images and logo 
 import logo from '../../assets/images/icons/logo.png'
@@ -40,7 +41,7 @@ const Sidebare = () => {
 
           <li className='mt-5'>
             <Link to="user/allusers" className='flex items-center  text-[#ffffff] hover:bg-white py-5 hover:text-[#20374b] hover:rounded-l-xl'>
-              <FaUser className='mr-3 ml-5' color='#fdc127' />
+              <FaUserFriends className='mr-3 ml-5' color='#fdc127' />
               <span>Users</span>
             </Link>
           </li>
@@ -49,6 +50,13 @@ const Sidebare = () => {
             <Link to="user/allusers" className='flex items-center  text-[#ffffff] hover:bg-white py-5 hover:text-[#20374b] hover:rounded-l-xl'>
               <GrTasks className='mr-3 ml-5 ' color='#fdc127'/>
               <span>Tasks</span>
+            </Link>
+          </li>
+
+          <li className='mt-5'>
+            <Link to="user/allusers" className='flex items-center  text-[#ffffff] hover:bg-white py-5 hover:text-[#20374b] hover:rounded-l-xl'>
+              <CgProfile className='mr-3 ml-5 ' color='#fdc127'/>
+              <span>Profil</span>
             </Link>
           </li>
         </ul>

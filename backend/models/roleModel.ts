@@ -6,11 +6,13 @@ const schemaRole = new Schema({
         required : true
     },
 
-    permission : [{
-        type : Schema.Types.ObjectId, ref: 'Permission',
+    permission : {
+        type : Schema.Types.ObjectId, 
+        ref: 'Permission',
         required : false
-    }],
+    },
 })
 
-const roleModel = model('User', schemaRole)
-module.exports =  roleModel 
+const roleModel = model('Role', schemaRole)
+
+export default  roleModel 
