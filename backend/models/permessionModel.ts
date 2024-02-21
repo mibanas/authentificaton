@@ -4,7 +4,6 @@
     module: {
         type: String,
         required: true,
-        unique: true
     },
     create: {
         type: Boolean,

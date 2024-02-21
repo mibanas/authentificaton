@@ -1,25 +1,15 @@
-import express, { Application } from 'express';
-import dotenv from "dotenv";
+import app from './index'
+import { config } from 'dotenv';
+import ConnectToMongoDB from './config/db'
 
-dotenv.config()
-class Server {
-    private app: Application;
-    private port: number ;
 
-    constructor() {
-        this.app = express();
-        this.port = 3030;
-    }
+// env variable 
+config()
+const port =  3030
 
-    public start(): void {
-        this.app.listen(this.port, () => {
-            console.log(`Server is running on port ${this.port}`);
-        });
-    }
+// data base connexion
+ConnectToMongoDB.connect()
 
-    public getApp(): Application {
-        return this.app;
-    }
-}
-
-export default Server;
+app.listen(port, () => {
+    console.log(`Server is running at the port ${port}`);
+})

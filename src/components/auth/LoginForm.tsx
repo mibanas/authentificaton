@@ -1,22 +1,43 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { AppDispatch } from "../../redux/app/AppStore";
+import { loginUser } from '../../redux/features/AuthSlice';
 
 const LoginForm = () => {
+    const navigate = useNavigate();
+    const [formData, setFormData] = useState({
+        email: "",
+        password: "",
+    });
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-  
-    const handleSubmit = (e : any) => {
-      e.preventDefault();
-      console.log('Email:', email);
-      console.log('Password:', password);
+        const handleInputChange = (event : any) => {
+            const { name, value } = event.target;
+            setFormData({ ...formData, [name]: value });
+        };
+    const dispatch = useDispatch<AppDispatch>()
+
+    
+    const  handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        
+        try {
+            await dispatch(loginUser(formData));
+            setFormData({
+                email: "",
+                password: "",
+            });
+            navigate('/admin/dashboard');
+        } catch (error) {
+            console.error('Login error:', error);
+        }
     };
 
     return (
         <div className='flex flex-col w-2/3 mx-auto'>
         <h1 className='text-yellow-600 font-bold text-6xl text-left mb-7'>Login now</h1>
         <h2 className='text-white font-thin text-4xl text-left mb-7'>Hi, Welcome back </h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} >
             <div className='text-left mb-4 mt-2 text-white'>
                 <label htmlFor="email">Email :</label>
             </div>
@@ -26,8 +47,9 @@ const LoginForm = () => {
                     type="email"
                     placeholder='Enter your Email'
                     id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    name="email"
                     required
                 />
             </div>
@@ -40,8 +62,9 @@ const LoginForm = () => {
                     type="password"
                     placeholder='Enter your Password'
                     id="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    value={formData.password}
+                    name="password"
+                    onChange={handleInputChange}
                     required
                 />
             </div>

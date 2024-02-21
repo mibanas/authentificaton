@@ -4,61 +4,45 @@ import permissionModel from '../../models/permessionModel'
 
 export const createRole = async (req: Request, res: Response) => {
     try {
-    const { role } = req.body
-    const { create, read, update, deletee } = req.body
+        const { role, create, read, update, deletee } = req.body;
 
-    
-    const existingRole : any = await roleModel.findOne({ role })
-    if (existingRole) {
-        return res.status(400).json({ 
-            success: false, 
-            message: 'Role already exist.' 
-        })
-    }
-
-    const newRole = await roleModel.create({
-        role,
-    })
-
-    const addPermissions : any = await permissionModel.create({
-        module : 'users',
-        create, 
-        read, 
-        update, 
-        deletee,
-    })
-
-    if (addPermissions) {
-        try {
-            await roleModel.findByIdAndUpdate(newRole._id, {
-                permission : addPermissions._id
-            })
-            res.status(201).json({
-                success: true,
-                data: newRole,
-                message: 'Le rôle et les permissions ont été créé avec succès.',
-            })
-            
-        } catch (error) {
-            return res.status(500).json({ 
+        const existingRole = await roleModel.findOne({ role });
+        if (existingRole) {
+            return res.status(400).json({ 
                 success: false, 
-                error: 'Erreur lors de la mise à jour de l\'utilisateur.' 
+                message: 'Role already exists.' 
             });
         }
-    }
 
-    return res.status(203).json({ 
-        success: false, 
-        message: 'Role added successfuly.' 
-    })
+        const newRole = await roleModel.create({ role });
+
+        const addPermissions = await permissionModel.create({
+            module: 'users',
+            create,
+            read,
+            update,
+            deletee,
+        });
+
+        await roleModel.findByIdAndUpdate(newRole._id, {
+            permission: addPermissions._id,
+        });
+
+        return res.status(201).json({
+            success: true,
+            data: newRole,
+            permissions : addPermissions,
+            message: 'Role and permissions created successfully.',
+        });
 
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            error: 'Erreur lors de la création du rôle. Veuillez réessayer.',
-        })
+        console.error('Error creating role:', error);
+        return res.status(500).json({ 
+            success: false, 
+            error: 'Error creating role. Please try again.' 
+        });
     }
-}
+};
     
 export const getAllRoles = async (req: Request, res: Response) => {
     try {
@@ -74,6 +58,36 @@ export const getAllRoles = async (req: Request, res: Response) => {
         });
     }
 }
+
+export const getAllRolesPagination = async (req: Request, res: Response) => {
+    const page = req.body.page ? parseInt(req.body.page as string) : 1;
+    const limit = 10;
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+
+    try {
+        const totalRoles = await roleModel.countDocuments();
+        const roles = await roleModel.find().skip(startIndex).limit(limit).populate('permission');
+
+        const pagination = {
+            currentPage: page,
+            totalPages: Math.ceil(totalRoles / limit),
+            totalRoles
+        };
+
+        return res.status(200).json({
+            success: true,
+            data: roles,
+            pagination
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            error: 'Erreur lors de la récupération des rôles.'
+        });
+    }
+};
+
 
 export const getRoleById = async (req: Request, res: Response) => {
     try {
@@ -146,6 +160,7 @@ export const updateRole = async (req: Request, res: Response) => {
         if (update !== undefined) newPermissions.update = update;
         if (deletee !== undefined) newPermissions.delete = deletee;
 
+        
         const updatedRole = await roleModel.findByIdAndUpdate(roleId, { 
             role : role
         }, 
