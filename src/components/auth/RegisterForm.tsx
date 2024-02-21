@@ -1,12 +1,16 @@
+import { register } from '../../services/api/auth/AuthApi';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const RegisterForm = () => {
     const navigate = useNavigate();
-    const [completname, setCompletName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+
+    const [formData, setFormData] = useState({
+        completeName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+    });
 
     const handleInputChange = (event : any) => {
         const { name, value } = event.target;
@@ -15,20 +19,13 @@ const RegisterForm = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (password !== confirmPassword) {
+        if (formData.password !== formData.confirmPassword) {
             console.log("Passwords do not match");
             return;
         }
 
         try {
-            const formData = {
-                completname,
-                email,
-                password,
-            };
-            console.log(formData);
-            return
-
+            register(formData)
             navigate('/auth/login');
         } catch (error) {
             console.error('Register error:', error);
@@ -41,16 +38,17 @@ const RegisterForm = () => {
             <h2 className='text-white font-thin text-4xl text-left mb-7'>Hi, Welcome</h2>
             <form onSubmit={handleSubmit}>
                 <div className='text-left mb-4 mt-2 text-white'>
-                    <label htmlFor="completname">Complet Name :</label>
+                    <label htmlFor="completeName">complete Name :</label>
                 </div>
                 <div className='bg-[#E8505b] rounded-sm text-white '>
                     <input
                         className='bg-transparent outline-none rounded-xl p-4 w-full placeholder-[#20374B]'
                         type="text"
                         placeholder='Enter your complet Name'
-                        id="completname"
-                        value={completname}
-                        onChange={(e) => setCompletName(e.target.value)}
+                        id="completeName"
+                        value={formData.completeName}
+                        onChange={handleInputChange}
+                        name="completeName"
                         required
                     />
                 </div>
@@ -63,8 +61,9 @@ const RegisterForm = () => {
                         type="email"
                         placeholder='Enter your Email'
                         id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        value={formData.email}
+                        name="email"
+                        onChange={handleInputChange}
                         required
                     />
                 </div>
@@ -77,8 +76,9 @@ const RegisterForm = () => {
                         type="password"
                         placeholder='Enter your Password'
                         id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        value={formData.password}
+                        name="password"
+                        onChange={handleInputChange}
                         required
                     />
                 </div>
@@ -91,8 +91,9 @@ const RegisterForm = () => {
                         type="password"
                         placeholder='Confirm your Password'
                         id="confirmPassword"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        value={formData.confirmPassword}
+                        name="confirmPassword"
+                        onChange={handleInputChange}
                         required
                     />
                 </div>

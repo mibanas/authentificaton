@@ -10,7 +10,7 @@ interface AuthGuardsProps {
 
 const AuthGuards = ({ children }: AuthGuardsProps) => {
     const isLogged = useSelector((state: RootState) => state.auth.isLogged);
-    
+    const adminRole = useSelector((state: RootState) => state.auth.isAdmin);
     useEffect(() => {
       const isValid = isTokenValid();
       if (!isValid) {
@@ -18,7 +18,10 @@ const AuthGuards = ({ children }: AuthGuardsProps) => {
         window.location.href = '/auth/login';
       }
     }, []);
-    
+   
+    if(!adminRole?.includes('ADMIN')) {
+      return <Navigate to='/'/>
+  }
     if(!isLogged) {
         return <Navigate to='/auth/login'/>
     }

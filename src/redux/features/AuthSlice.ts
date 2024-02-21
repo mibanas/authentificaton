@@ -2,10 +2,9 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { login, logout } from "../../services/api/auth/AuthApi";
 import { FormData } from "@/src/interfaces/auth/userInterface";
 
-
-
 const initialState = {
-    isLogged:  localStorage.getItem('token') || null,
+    isLogged: localStorage.getItem('token') || null,
+    isAdmin: localStorage.getItem('role') || null,
 }
 
 export const authSlice = createSlice({
@@ -13,18 +12,24 @@ export const authSlice = createSlice({
     initialState,
     reducers: {
         logoutUser: (state) => {
-            state.isLogged = '' || null;
+            state.isLogged =  null;
+            state.isAdmin =  null;
+            localStorage.removeItem("token");
+            localStorage.removeItem("role");
+            localStorage.removeItem("user");
         },
     },
     extraReducers: (builder) => {
         builder.addCase(loginUser.pending, (state) => {
             state.isLogged = '' || null;
         });
-        builder.addCase(loginUser.fulfilled, (state) => {
-            state.isLogged = localStorage.getItem('token') || null;
+        builder.addCase(loginUser.fulfilled, (state, action) => {
+            state.isLogged = localStorage.getItem('token') || null;            
+            state.isAdmin = localStorage.getItem('role') || null;          
         });
         builder.addCase(loginUser.rejected, (state) => {
-            state.isLogged = '' || null;
+            state.isLogged = null;
+            state.isAdmin = null;
         });
     },
 });
@@ -37,8 +42,6 @@ export const loginUser = createAsyncThunk('auth/loginUser', async (dataForm: For
         return rejectWithValue(error.message);
     }
 });
-
-
 
 // Define logoutUser action creator
 export const { logoutUser } = authSlice.actions;
