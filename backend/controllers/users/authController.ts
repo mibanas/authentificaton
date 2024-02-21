@@ -43,6 +43,7 @@ export const login = async (req: Request, res: Response) => {
 
           const secret: any = process.env.SECRET_KEY;
           const payload = {
+              userId : user._id,
               name: user.completeName,
               email: user.email,
           };

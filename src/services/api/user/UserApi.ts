@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 interface User {
   _id: string;
   completeName: string;
@@ -21,7 +22,16 @@ interface User {
 
 export const getAllUsers = async (page: number) => {
   try {
-    const allUsers = await axios.post("http://localhost:3030/users/pagination", { page });
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Token not found in localStorage');
+    }
+
+    const allUsers = await axios.post("http://localhost:3030/users/pagination", { page }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     
     return allUsers.data;
   } catch (error : any) {
