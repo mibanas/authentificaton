@@ -1,0 +1,102 @@
+const app = require('../backend/index');
+const userModel = require('../backend/models/userModel');
+const jwt = require('jsonwebtoken');
+const request = require('supertest');
+
+describe('GET /users', () => {
+    let token: string;
+
+  beforeAll(async () => {
+    const user = await userModel.create({
+      completeName: 'Test User',
+      email: 'test@example.com',
+      password: 'testpassword',
+      role: 'user', 
+    });
+
+    token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY || 'secret');
+  });
+
+  it('should return 200 and all users if user has permission', async () => {
+    const response = await request(app)
+      .get('/users')
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body.success).toBe(true);
+    expect(response.body.data).toBeTruthy(); 
+  });
+
+  it('should return 403 if user does not have permission', async () => {
+    // Update the user's role to remove the permission
+    await userModel.findOneAndUpdate({ email: 'test@example.com' }, { role: 'other' });
+
+    const response = await request(app)
+      .get('/users')
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(response.status).toBe(403);
+    expect(response.body.message).toBe('Vous n\'êtes pas autorisé à lire les utilisateurs');
+  });
+
+  afterAll(async () => {
+    // Clean up the test user
+    await userModel.findOneAndDelete({ email: 'test@example.com' });
+  });
+});
+
+describe('POST /users', () => {
+    let token: string;
+  
+    beforeAll(async () => {
+      // Create a test user and generate a JWT token
+      const user = await userModel.create({
+        completeName: 'Test User',
+        email: 'test@example.com',
+        password: 'testpassword',
+        role: 'user', // Assuming you have a 'user' role in your roleModel
+      });
+  
+      token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY || 'secret');
+    });
+  
+    it('should return 201 and the created user if user has permission', async () => {
+      const response = await request(app)
+        .post('/users')
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          completeName: 'New User',
+          email: 'newuser@example.com',
+          password: 'newuserpassword',
+          role: 'user',
+        });
+  
+      expect(response.status).toBe(201);
+      expect(response.body.success).toBe(true);
+      expect(response.body.data).toBeTruthy(); // Assuming data contains the created user
+    });
+  
+    it('should return 403 if user does not have permission', async () => {
+      // Update the user's role to remove the permission
+      await userModel.findOneAndUpdate({ email: 'test@example.com' }, { role: 'other' });
+  
+      const response = await request(app)
+        .post('/users')
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          completeName: 'New User',
+          email: 'newuser@example.com',
+          password: 'newuserpassword',
+          role: 'user',
+        });
+  
+      expect(response.status).toBe(403);
+      expect(response.body.message).toBe('Vous n\'êtes pas autorisé à créer un utilisateur');
+    });
+  
+    afterAll(async () => {
+      // Clean up the test user
+      await userModel.findOneAndDelete({ email: 'test@example.com' });
+    });
+  });
+  

@@ -59,7 +59,7 @@
     "dev:back": "nodemon backend/server.ts",
     "dev": "concurrently \"npm run dev:back\" \"npm run dev:front\"",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest --watch",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -86,6 +86,9 @@
     "@types/jsonwebtoken": "^9.0.5",
     "@types/multer": "^1.4.11",
     "@types/node": "^20.11.16",
-    "nodemon": "^3.0.3"
+    "@types/supertest": "^6.0.2",
+    "jest": "^27.5.1",
+    "nodemon": "^3.0.3",
+    "supertest": "^6.3.4"
   }
 }
