@@ -1,6 +1,8 @@
 import express from 'express'
 import { config } from 'dotenv'
 import cors from 'cors'
+import swaggerUi from 'swagger-ui-express';
+import  apiDocumentation  from './docs/apiDocs';
 
 // importer les routes 
 import authRoutes from './routes/authRoutes';
@@ -22,6 +24,9 @@ config()
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
 app.use('/roles', roleRoutes);
+
+
+app.use('/documentation', swaggerUi.serve, swaggerUi.setup(apiDocumentation));
 
 // Handle 404 errors
 app.use((req, res, next) => {
