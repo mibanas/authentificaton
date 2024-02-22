@@ -3,6 +3,9 @@ import { Table } from 'flowbite-react';
 import { Pagination } from 'flowbite-react';
 import { Badge } from 'flowbite-react';
 import { Link } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
+
+
 
 // api 
 import { deleteUserById } from "../../../services/api/user/UserApi";
@@ -49,13 +52,21 @@ const AllUser = () => {
     try {
       await deleteUserById(id)
       loadUsers(currentPage)
-    } catch (error) {
-      
+      toast.success('User Deleted Successfully!')
+    } catch (error : any) {
+      if (error.response.status === 403) {
+        toast.error("Vous n'êtes pas autorisé à supprimer cet utilisateur.")
+      } else {
+      }
     }
   };
   
   return (
     <div>
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+      />
       <div className='flex justify-between items-center'>
         <p className='text-[#20374b] font-normal text-5xl'>Users List</p>
         <div className='flex items-center justify-end'>

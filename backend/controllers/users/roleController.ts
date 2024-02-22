@@ -158,7 +158,7 @@ export const updateRole = async (req: Request, res: Response) => {
         if (create !== undefined) newPermissions.create = create;
         if (read !== undefined) newPermissions.read = read;
         if (update !== undefined) newPermissions.update = update;
-        if (deletee !== undefined) newPermissions.delete = deletee;
+        if (deletee !== undefined) newPermissions.deletee = deletee;
 
         
         const updatedRole = await roleModel.findByIdAndUpdate(roleId, { 
