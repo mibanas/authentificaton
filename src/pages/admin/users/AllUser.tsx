@@ -40,9 +40,7 @@ interface User {
 const AllUser = () => {
   const { users, loadUsers, currentPage, setCurrentPage } = UseUsers();
   const {  pagination } = UseUsers();
-  
-  console.log(users);
-  
+    
   const onPageChange = (page: number) => {    
     setCurrentPage(page)
     loadUsers(page)

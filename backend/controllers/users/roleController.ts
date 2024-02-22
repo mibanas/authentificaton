@@ -142,7 +142,6 @@ export const updateRole = async (req: Request, res: Response) => {
     const roleId = req.params.id;
     const { role, create, read, update, deletee } = req.body;
 
-    console.log(role, create, read, update, deletee);
     
     try {
         const existingRole = await roleModel.findById(roleId);

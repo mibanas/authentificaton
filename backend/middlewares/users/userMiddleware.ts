@@ -38,9 +38,6 @@ const checkPermissions = async (req: Request, res: Response, next: NextFunction)
         if (!user) {
             return res.status(404).json({ success: false, message: 'User not found' });
         }    
-    
-        console.log(user);
-        console.log(method);
         
         switch (method) {
             case 'POST':
@@ -67,7 +64,7 @@ const checkPermissions = async (req: Request, res: Response, next: NextFunction)
             case 'DELETE':
                 if(user.role.permission.deletee){
                     next();
-                } else {
+                } else {                    
                     res.status(403).json({ message: 'Vous n\'êtes pas autorisé à supprimer un utilisateur' });
                 }
                 break;

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Label, Select, ToggleSwitch } from 'flowbite-react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { getUserById, updateUserById } from "../../../services/api/user/UserApi";
+import toast, { Toaster } from 'react-hot-toast';
 
 import UsePermissions from '../../../hooks/permissions/UsePermissions';
 
@@ -48,6 +49,7 @@ interface User {
 }
 
 const EditUser = () => {
+  const navigate = useNavigate();
   const { roles, loadRoles } = UsePermissions();
   const { loadUsers } = UseUsers();
   const [user, setUser] = useState<User>();
@@ -74,7 +76,7 @@ const EditUser = () => {
     getuster()
   }, [])
 
-  const navigate = useNavigate();
+
   const handleSubmit = async (e : any) => {
     e.preventDefault();
 
@@ -82,15 +84,29 @@ const EditUser = () => {
       ...updateRole,
       roleName: selectedRole || '' // Mettre à jour le roleName avec la valeur du rôle de l'utilisateur
     };
-  
-    setUpdateRole(updatedRole);
-    updateUserById(userID as string, updatedRole);
-    await loadUsers(1)
-    navigate('/admin/user/allusers')
+    
+    try {
+      setUpdateRole(updatedRole);
+      await updateUserById(userID as string, updatedRole);
+      toast.success('User Role Updated Successfully!')
+      await loadUsers(1)
+      navigate('/admin/user/allusers')
+      
+    } catch (error : any) {
+      if (error.response.status === 403) {
+        toast.error("Vous n'êtes pas autorisé à modifier cet utilisateur.")
+      } else {
+      }
+    }
   };
 
 return (
     <div>
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+      />
+
       <div className='flex justify-between items-center'>
         <p className='text-[#20374b] font-normal text-5xl'>Role And Permissions</p>
         <div className='flex items-center justify-end'>

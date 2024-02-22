@@ -38,6 +38,7 @@ export const createUser = async (req: Request, res: Response) => {
 }
 
 export const getAllUsers = async (req: Request, res: Response) => {
+    
     try {
         const users = await userModel.find().populate({ path: 'role', populate: { path: 'permission' } });
         return res.status(200).json({ 
@@ -140,7 +141,7 @@ export const getUserById = async (req: Request, res: Response) => {
     }
 };
 
-export const updateUser = async (req: Request, res: Response) => {    
+export const updateUser = async (req: Request, res: Response) => {        
     const userId: string = req.params.id;
     const { completeName, password, email, token, roleName } = req.body;
 
