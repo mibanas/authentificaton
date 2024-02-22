@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 interface User {
   _id: string;
   completeName: string;
@@ -21,54 +20,52 @@ interface User {
 }
 
 export const getAllUsers = async (page: number) => {
-  try {
+
     const token = localStorage.getItem('token');
     if (!token) {
       throw new Error('Token not found in localStorage');
     }
-
     const allUsers = await axios.post("http://localhost:3030/users/pagination", { page }, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    
     return allUsers.data;
-  } catch (error : any) {
-    console.error("Erreur lors de la récupération des utilisateurs :", error.message);
-    throw error;
-  }
 };
 
 // Récupérer un utilisateur par son ID
 export const getUserById = async (userId: string) => {
-  try {
-    const response = await axios.get(`http://localhost:3030/users/${userId}`);
-    return response.data ;
-  } catch (error : any) {
-    console.error('Erreur lors de la récupération de l\'utilisateur :', error.message);
-    throw error;
+  const token = localStorage.getItem('token');
+  if (!token) {
+    throw new Error('Token not found in localStorage');
   }
+    const response = await axios.get(`http://localhost:3030/users/${userId}`, {   headers: {
+      Authorization: `Bearer ${token}`,
+    }});
+    return response.data ;
 };
 
 // Mettre à jour un utilisateur par son ID
 export const updateUserById = async (userId: string, userData: any) => {
-  try {
-    const response = await axios.put(`http://localhost:3030/users/${userId}`, userData);
-    return response.data;
-  } catch (error : any) {
-    console.error('Erreur lors de la mise à jour de l\'utilisateur :', error.message);
-    throw error;
+  const token = localStorage.getItem('token');
+  if (!token) {
+    throw new Error('Token not found in localStorage');
   }
+    const response = await axios.put(`http://localhost:3030/users/${userId}`, userData, { headers: {
+      Authorization: `Bearer ${token}`,
+    },});
+    return response.data;
 };
 
 // Supprimer un utilisateur par son ID
 export const deleteUserById = async (userId: string) => {
-  try {
-    const response = await axios.delete(`http://localhost:3030/users/${userId}`);
-    return response.data;
-  } catch (error : any) {
-    console.error('Erreur lors de la suppression de l\'utilisateur :', error.message);
-    throw error;
+  const token = localStorage.getItem('token');
+  if (!token) {
+    throw new Error('Token not found in localStorage');
   }
+    const response = await axios.delete(`http://localhost:3030/users/${userId}`, {   headers: {
+      Authorization: `Bearer ${token}`,
+    }});
+    return response.data;
+
 };

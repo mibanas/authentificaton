@@ -46,8 +46,12 @@ const AllUser = () => {
   };
 
   const handleDelete = async (id: string) => {    
-    await deleteUserById(id)
-    loadUsers(currentPage)
+    try {
+      await deleteUserById(id)
+      loadUsers(currentPage)
+    } catch (error) {
+      
+    }
   };
   
   return (

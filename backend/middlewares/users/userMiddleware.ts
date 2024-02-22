@@ -37,43 +37,43 @@ const checkPermissions = async (req: Request, res: Response, next: NextFunction)
         const user = await userModel.findById<User>(decodedToken.userId).populate({ path: 'role', populate: { path: 'permission' } });
         if (!user) {
             return res.status(404).json({ success: false, message: 'User not found' });
-        }
+        }    
     
-    console.log(user.role.permission.create);
-    
-
-    switch (method) {
-        case 'POST':
-            if(user.role.permission.create){
-                next();
-            } else {
-                res.status(403).json({ message: 'Vous n\'êtes pas autorisé à créer un utilisateur' });
-            }
-            break;
-        case 'GET':
-            if(user.role.permission.read){
-                next();
-            } else {
-                res.status(403).json({ message: 'Vous n\'êtes pas autorisé à lire les utilisateurs' });
-            }
-            break;
-        case 'PUT':
-            if(user.role.permission.update){
-            next();
-            } else {
-            res.status(403).json({ message: 'Vous n\'êtes pas autorisé à mettre à jour un utilisateur' });
-            }
-            break;
-        case 'DELETE':
-            if(user.role.permission.deletee){
-            next();
-            } else {
-            res.status(403).json({ message: 'Vous n\'êtes pas autorisé à supprimer un utilisateur' });
-            }
-            break;
-        default:
-            res.status(405).json({ message: 'Méthode non autorisée' });
-            break;
+        console.log(user);
+        console.log(method);
+        
+        switch (method) {
+            case 'POST':
+                if(user.role.permission.create){
+                    next();
+                } else {
+                    res.status(403).json({ message: 'Vous n\'êtes pas autorisé à créer un utilisateur' });
+                }
+                break;
+            case 'GET':
+                if(user.role.permission.read){
+                    next();
+                } else {
+                    res.status(403).json({ message: 'Vous n\'êtes pas autorisé à lire les utilisateurs' });
+                }
+                break;
+            case 'PUT':
+                if(user.role.permission.update){
+                    next();
+                } else {
+                    res.status(403).json({ message: 'Vous n\'êtes pas autorisé à mettre à jour un utilisateur' });
+                }
+                break;
+            case 'DELETE':
+                if(user.role.permission.deletee){
+                    next();
+                } else {
+                    res.status(403).json({ message: 'Vous n\'êtes pas autorisé à supprimer un utilisateur' });
+                }
+                break;
+            default:
+                res.status(405).json({ message: 'Méthode non autorisée' });
+                break;
         }
 
     } catch (error) {
